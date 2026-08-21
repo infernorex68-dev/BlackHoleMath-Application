@@ -1,0 +1,138 @@
+﻿<Window x:Class="BlackHoleMath.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BlackHoleMath"
+        mc:Ignorable="d"
+        Title="BLACK HOLE MATH" Height="600" Width="900"
+        Background="{StaticResource BgDark}"
+        Icon="black_hole.ico"
+        Loaded="Window_Loaded"
+        WindowStyle="None"
+        AllowsTransparency="False"
+        ResizeMode="CanResizeWithGrip">
+    <Window.Resources>
+        <Storyboard x:Key="IntroAnimation">
+            <DoubleAnimation Storyboard.TargetName="BlackHoleEllipse" Storyboard.TargetProperty="Opacity"
+                          From="0" To="1" Duration="0:0:1.2"/>
+            <DoubleAnimation Storyboard.TargetName="AccretionDisk" Storyboard.TargetProperty="Opacity"
+                          From="0" To="1" Duration="0:0:1.5" BeginTime="0:0:0.3"/>
+            <DoubleAnimation Storyboard.TargetName="BlackHoleEllipse" Storyboard.TargetProperty="RenderTransform.ScaleX"
+                          From="0.3" To="1" Duration="0:0:1.2"/>
+            <DoubleAnimation Storyboard.TargetName="BlackHoleEllipse" Storyboard.TargetProperty="RenderTransform.ScaleY"
+                          From="0.3" To="1" Duration="0:0:1.2"/>
+        </Storyboard>
+    </Window.Resources>
+
+    <!-- OUTER WRAPPER: title bar row + content row -->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="36"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- CUSTOM TITLE BAR -->
+        <Grid Grid.Row="0" Background="{StaticResource PanelDark}" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,0">
+                <TextBlock Text="BLACK HOLE MATH" FontFamily="/BlackHoleMath;component/Fonts/#Orbitron"
+                           Foreground="{StaticResource AccentCrimson}" FontSize="13" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="—" Width="45" Height="36" Click="MinimizeButton_Click" Style="{StaticResource TitleBarButton}"/>
+                <Button Content="✕" Width="45" Height="36" Click="CloseButton_Click" Style="{StaticResource TitleBarButton}"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- MAIN CONTENT (Original Grid, now in Row 1) -->
+        <Grid Grid.Row="1" Margin="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- LEFT PANEL: Inputs -->
+            <StackPanel Grid.Column="0" Margin="0,0,20,0">
+                <TextBlock Text="BLACK HOLE MATH" FontFamily="/BlackHoleMath;component/Fonts/#Orbitron" Foreground="{StaticResource AccentCrimson}" FontSize="20" FontWeight="Bold" Margin="0,0,0,20"/>
+
+                <TextBlock Text="Mass Unit:" FontFamily="/BlackHoleMath;component/Fonts/#Orbitron"  Foreground="{StaticResource TextMuted}" Margin="0,0,0,5"/>
+                <ComboBox x:Name="UnitComboBox" SelectedIndex="0" Margin="0,0,0,15">
+                    <ComboBoxItem Content="Kilograms"/>
+                    <ComboBoxItem Content="Solar Masses"/>
+                </ComboBox>
+
+                <TextBlock Text="Mass Value:" FontFamily="/BlackHoleMath;component/Fonts/#Orbitron"  Foreground="{StaticResource TextMuted}" Margin="0,0,0,5"/>
+                <TextBox x:Name="MassInputBox" Margin="0,0,0,15"/>
+
+                <Button x:Name="CalculateButton" FontFamily="/BlackHoleMath;component/Fonts/#Orbitron" Content="Calculate" Height="35"
+                        Click="CalculateButton_Click"/>
+
+                <TextBlock x:Name="ErrorText" Foreground="Red" TextWrapping="Wrap" Margin="0,10,0,0"/>
+            </StackPanel>
+
+            <!-- RIGHT PANEL: Visual + Results -->
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="200"/>
+                </Grid.RowDefinitions>
+
+                <!-- Black hole visual -->
+                <Canvas x:Name="VisualCanvas" Grid.Row="0" Background="#0a0a0a">
+
+                    <!-- Accretion disk (behind the black hole) -->
+                    <Ellipse x:Name="AccretionDisk" Width="180" Height="60"
+                 Canvas.Left="190" Canvas.Top="190" RenderTransformOrigin="0.5,0.5">
+                        <Ellipse.Fill>
+                            <RadialGradientBrush>
+                                <GradientStop Color="#fff4d6" Offset="0.0"/>
+                                <GradientStop Color="#ff8c1a" Offset="0.4"/>
+                                <GradientStop Color="#ec1857" Offset="0.75"/>
+                                <GradientStop Color="Transparent" Offset="1.0"/>
+                            </RadialGradientBrush>
+                        </Ellipse.Fill>
+                        <Ellipse.RenderTransform>
+                            <RotateTransform Angle="-20"/>
+                        </Ellipse.RenderTransform>
+                    </Ellipse>
+
+                    <!-- The black hole itself (event horizon) -->
+                    <Ellipse x:Name="BlackHoleEllipse" Fill="Black" Stroke="{StaticResource AccentCrimson}" StrokeThickness="2"
+             Width="100" Height="100" Canvas.Left="230" Canvas.Top="170">
+                        <Ellipse.RenderTransform>
+                            <ScaleTransform x:Name="BHScale" CenterX="50" CenterY="50"/>
+                        </Ellipse.RenderTransform>
+                        <Ellipse.Effect>
+                            <DropShadowEffect x:Name="GlowEffect" Color="#ec1857" BlurRadius="30" ShadowDepth="0" Opacity="0.8"/>
+                        </Ellipse.Effect>
+                    </Ellipse>
+
+                </Canvas>
+
+                <!-- Results -->
+                <Border Grid.Row="1" Background="{StaticResource PanelDark}"
+            BorderBrush="#3a1f26" BorderThickness="1" CornerRadius="10"
+            Padding="16" Margin="0,10,0,0">
+                    <StackPanel>
+                        <TextBlock Text="RESULTS" FontFamily="/BlackHoleMath;component/Fonts/#Orbitron"
+                       Foreground="{StaticResource AccentOrange}" FontSize="16" Margin="0,0,0,10"/>
+
+                        <TextBlock x:Name="RadiusText" Foreground="{StaticResource AccentCream}"
+                       Text="Radius: --" Margin="0,2"/>
+                        <TextBlock x:Name="CircumferenceText" Foreground="{StaticResource AccentCream}"
+                       Text="Circumference: --" Margin="0,2"/>
+                        <TextBlock x:Name="SurfaceAreaText" Foreground="{StaticResource AccentCream}"
+                       Text="Surface Area: --" Margin="0,2"/>
+
+                        <Border BorderBrush="#3a1f26" BorderThickness="0,1,0,0" Margin="0,10,0,10"/>
+
+                        <TextBlock x:Name="ClassificationText" Foreground="{StaticResource AccentOrange}"
+                       FontWeight="Bold" Text="Classification: --"/>
+                        <TextBlock x:Name="NoteText" Foreground="{StaticResource TextMuted}"
+                       TextWrapping="Wrap" Margin="0,6,0,0" FontSize="12"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
