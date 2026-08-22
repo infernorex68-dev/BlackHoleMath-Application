@@ -21,6 +21,75 @@ namespace BlackHoleMath
         {
             InitializeComponent();
         }
+        private void CenterVisualElements()
+        {
+            double holeSize = BlackHoleEllipse.Width; // keep the default 100 from XAML
+            Canvas.SetLeft(BlackHoleEllipse, (VisualCanvas.ActualWidth - holeSize) / 2);
+            Canvas.SetTop(BlackHoleEllipse, (VisualCanvas.ActualHeight - holeSize) / 2);
+
+            double diskWidth = AccretionDisk.Width;   // keep the default 180
+            double diskHeight = AccretionDisk.Height; // keep the default 60
+            Canvas.SetLeft(AccretionDisk, (VisualCanvas.ActualWidth - diskWidth) / 2);
+            Canvas.SetTop(AccretionDisk, (VisualCanvas.ActualHeight - diskHeight) / 2);
+        }
+        private void GenerateStarfield()
+        {
+            var rnd = new Random();
+            int starCount = 120;
+
+            for (int i = 0; i < starCount; i++)
+            {
+                double size = rnd.NextDouble() * 2 + 1;
+                double x = rnd.NextDouble() * this.ActualWidth;
+                double y = rnd.NextDouble() * this.ActualHeight;
+                double baseOpacity = rnd.NextDouble() * 0.6 + 0.3;
+
+                var star = new Ellipse
+                {
+                    Width = size,
+                    Height = size,
+                    Fill = System.Windows.Media.Brushes.White,
+                    Opacity = baseOpacity
+                };
+
+                var drift = new TranslateTransform();
+                star.RenderTransform = drift;
+
+                Canvas.SetLeft(star, x);
+                Canvas.SetTop(star, y);
+                StarfieldCanvas.Children.Add(star);
+
+                // Slow drift movement (every star gets this)
+                double driftDistance = rnd.NextDouble() * 15 + 5; // 5–20 px range
+                double driftDuration = rnd.NextDouble() * 10 + 8;  // 8–18 seconds
+
+                var driftAnim = new DoubleAnimation
+                {
+                    From = 0,
+                    To = driftDistance,
+                    Duration = TimeSpan.FromSeconds(driftDuration),
+                    AutoReverse = true,
+                    RepeatBehavior = RepeatBehavior.Forever,
+                    BeginTime = TimeSpan.FromSeconds(rnd.NextDouble() * 5)
+                };
+                drift.BeginAnimation(TranslateTransform.YProperty, driftAnim);
+
+                // Twinkle (about a third of stars)
+                if (rnd.NextDouble() < 0.3)
+                {
+                    var twinkle = new DoubleAnimation
+                    {
+                        From = baseOpacity,
+                        To = baseOpacity * 0.2,
+                        Duration = TimeSpan.FromSeconds(rnd.NextDouble() * 2 + 1.5),
+                        AutoReverse = true,
+                        RepeatBehavior = RepeatBehavior.Forever,
+                        BeginTime = TimeSpan.FromSeconds(rnd.NextDouble() * 3)
+                    };
+                    star.BeginAnimation(UIElement.OpacityProperty, twinkle);
+                }
+            }
+        }
         private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             this.DragMove();
@@ -37,8 +106,13 @@ namespace BlackHoleMath
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            GenerateStarfield();
             Storyboard intro = (Storyboard)FindResource("IntroAnimation");
             intro.Begin();
+            Storyboard glowPulse = (Storyboard)FindResource("GlowPulse");
+            glowPulse.Begin();
+            CenterVisualElements();
+
         }
         private void CalculateButton_Click(object sender, RoutedEventArgs e)
         {
@@ -64,11 +138,15 @@ namespace BlackHoleMath
             double radius = GravitationalConstant * 2 * mass / (SpeedOfLight * SpeedOfLight);
             double circumference = 2 * Math.PI * radius;
             double surfaceArea = 4 * Math.PI * radius * radius;
+            double surfaceGravity = SpeedOfLight * SpeedOfLight * SpeedOfLight * SpeedOfLight / (4 * GravitationalConstant * mass);
+            double photonSphereRadius = 1.5 * radius;
 
             // Update results text
             RadiusText.Text = $"Radius: {radius:E3} m";
             CircumferenceText.Text = $"Circumference: {circumference:E3} m";
             SurfaceAreaText.Text = $"Surface Area: {surfaceArea:E3} m²";
+            SurfaceGravityText.Text = $"Surface Gravity: {surfaceGravity:E3} m/s²";
+            PhotonSphereText.Text = $"Photon Sphere Radius: {photonSphereRadius:E3} m";
 
             // Notes based on radius
             if (radius < 0.0001)
@@ -124,6 +202,8 @@ namespace BlackHoleMath
             AccretionDisk.Height = diskHeight;
             Canvas.SetLeft(AccretionDisk, (VisualCanvas.ActualWidth - diskWidth) / 2);
             Canvas.SetTop(AccretionDisk, (VisualCanvas.ActualHeight - diskHeight) / 2);
+            // Keep the orbit pivot centered on the same point as the disk/black hole
+           
 
             // Color + glow sync
             System.Windows.Media.Color glowColor;
