@@ -83,6 +83,8 @@
 
                         <TextBlock x:Name="PhotonSphereText" Foreground="{StaticResource AccentCream}"
                        Text="Photon Sphere Radius: --" Margin="0,2" TextWrapping="Wrap"/>
+                        <TextBlock x:Name="HawkingRadiationText" Foreground="{StaticResource AccentCream}"
+                       Text="Hawking Radiation: --" Margin="0,2" TextWrapping="Wrap"/>
                     </StackPanel>
                 </Border>
             </StackPanel>

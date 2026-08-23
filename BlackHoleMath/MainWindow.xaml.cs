@@ -140,6 +140,7 @@ namespace BlackHoleMath
             double surfaceArea = 4 * Math.PI * radius * radius;
             double surfaceGravity = SpeedOfLight * SpeedOfLight * SpeedOfLight * SpeedOfLight / (4 * GravitationalConstant * mass);
             double photonSphereRadius = 1.5 * radius;
+            double hawkingTemperature = (1.0545718e-34 * SpeedOfLight * SpeedOfLight * SpeedOfLight) / (8 * Math.PI * GravitationalConstant * mass * 1.380649e-23);
 
             // Update results text
             RadiusText.Text = $"Radius: {radius:E3} m";
@@ -147,6 +148,7 @@ namespace BlackHoleMath
             SurfaceAreaText.Text = $"Surface Area: {surfaceArea:E3} m²";
             SurfaceGravityText.Text = $"Surface Gravity: {surfaceGravity:E3} m/s²";
             PhotonSphereText.Text = $"Photon Sphere Radius: {photonSphereRadius:E3} m";
+            HawkingRadiationText.Text = $"Hawking Radiation Temperature: {hawkingTemperature:E3} K";
 
             // Notes based on radius
             if (radius < 0.0001)
