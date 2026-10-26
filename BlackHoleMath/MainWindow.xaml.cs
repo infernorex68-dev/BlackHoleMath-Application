@@ -128,7 +128,8 @@ namespace BlackHoleMath
 
             const double SolarMass = 1.989e30;
             double mass;
-
+           const double ReducedPlanckConstant = 1.0545718e-34; // in m² kg / s
+            const double BoltzmannConstant = 1.380649e-23; // in J/K
             bool isSolarMass = UnitComboBox.SelectedIndex == 1;
             mass = isSolarMass ? massInput * SolarMass : massInput;
 
@@ -141,7 +142,10 @@ namespace BlackHoleMath
             double surfaceGravity = SpeedOfLight * SpeedOfLight * SpeedOfLight * SpeedOfLight / (4 * GravitationalConstant * mass);
             double photonSphereRadius = 1.5 * radius;
             double hawkingTemperature = (1.0545718e-34 * SpeedOfLight * SpeedOfLight * SpeedOfLight) / (8 * Math.PI * GravitationalConstant * mass * 1.380649e-23);
-
+            double gravitationalTimeDilation = 1 / Math.Sqrt(1 - (2 * GravitationalConstant * mass) / (radius * SpeedOfLight * SpeedOfLight));
+            double observationRadius = radius + 1000;
+            double timeDilationAtBuffer = 1 / Math.Sqrt(1 - (2 * GravitationalConstant * mass) / (observationRadius * SpeedOfLight * SpeedOfLight));
+            double entropy = (BoltzmannConstant * SpeedOfLight * SpeedOfLight * SpeedOfLight * surfaceArea) / (4 *GravitationalConstant * ReducedPlanckConstant);
             // Update results text
             RadiusText.Text = $"Radius: {radius:E3} m";
             CircumferenceText.Text = $"Circumference: {circumference:E3} m";
@@ -149,6 +153,9 @@ namespace BlackHoleMath
             SurfaceGravityText.Text = $"Surface Gravity: {surfaceGravity:E3} m/s²";
             PhotonSphereText.Text = $"Photon Sphere Radius: {photonSphereRadius:E3} m";
             HawkingRadiationText.Text = $"Hawking Radiation Temperature: {hawkingTemperature:E3} K";
+            GravitationalTimeDilationText.Text = $"Gravitational Time Dilation Factor: {gravitationalTimeDilation:E3}";
+            TimeDilationAt1kmAboveEventHorizonText.Text = $"Time Dilation at 1 km above Event Horizon: {timeDilationAtBuffer:E3}";
+            EntropyText.Text = $"Entropy: {entropy:E3} J/K";
 
             // Notes based on radius
             if (radius < 0.0001)

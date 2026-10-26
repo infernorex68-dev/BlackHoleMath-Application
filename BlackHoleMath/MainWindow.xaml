@@ -77,6 +77,7 @@
                 <Border Background="{StaticResource PanelDark}"
             BorderBrush="#3a1f26" BorderThickness="1" CornerRadius="10"
             Padding="16" Margin="0,20,0,0">
+                    <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" Margin="0,0,20,0">
                     <StackPanel>
                         <TextBlock Text="ADVANCED" FontFamily="/BlackHoleMath;component/Fonts/#Orbitron"
                        Foreground="{StaticResource AccentOrange}" FontSize="16" Margin="0,0,0,10"/>
@@ -85,7 +86,14 @@
                        Text="Photon Sphere Radius: --" Margin="0,2" TextWrapping="Wrap"/>
                         <TextBlock x:Name="HawkingRadiationText" Foreground="{StaticResource AccentCream}"
                        Text="Hawking Radiation: --" Margin="0,2" TextWrapping="Wrap"/>
+                        <TextBlock x:Name="GravitationalTimeDilationText" Foreground="{StaticResource AccentCream}"
+                       Text="Gravitational Time Dilation: --" Margin="0,2" TextWrapping="Wrap"/>
+                        <TextBlock x:Name="TimeDilationAt1kmAboveEventHorizonText" Foreground="{StaticResource AccentCream}"
+                       Text="Time Dilation At 1km Above Event Horizon: --" Margin="0,2" TextWrapping="Wrap"/>
+                        <TextBlock x:Name="EntropyText" Foreground="{StaticResource AccentCream}"
+           Text="Entropy: --" Margin="0,2" TextWrapping="Wrap"/>
                     </StackPanel>
+                    </ScrollViewer>
                 </Border>
             </StackPanel>
 
