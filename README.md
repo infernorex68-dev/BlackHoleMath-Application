@@ -183,8 +183,7 @@ All calculations assume a non-rotating, uncharged (Schwarzschild) black hole of 
 
 The Schwarzschild radius is the radius of the event horizon:
 
-<img width="85" height="41" alt="image" src="https://github.com/user-attachments/assets/8460587f-7558-4e36-ad94-07a3d29038fc" />
-
+$$r_s = \frac{2GM}{c^2}$$
 
 From it, the app derives the circumference and surface area:
 
