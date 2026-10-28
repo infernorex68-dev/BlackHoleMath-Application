@@ -99,7 +99,11 @@ namespace BlackHoleMath
         {
             this.WindowState = WindowState.Minimized;
         }
-
+        private static double TimeDilationFactor(double schwarzschildRadius, double r)
+        {
+            double ratio = schwarzschildRadius / r;  // schwarzschildRadius divided by r
+            return 1 / Math.Sqrt(1 - ratio);  // 1 / sqrt(1 - r_s / r), written with the two parameters
+        }
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -145,9 +149,9 @@ namespace BlackHoleMath
             double surfaceGravity = SpeedOfLight * SpeedOfLight * SpeedOfLight * SpeedOfLight / (4 * GravitationalConstant * mass);
             double photonSphereRadius = 1.5 * radius;
             double hawkingTemperature = (1.0545718e-34 * SpeedOfLight * SpeedOfLight * SpeedOfLight) / (8 * Math.PI * GravitationalConstant * mass * 1.380649e-23);
-            double gravitationalTimeDilation = 1 / Math.Sqrt(1 - (2 * GravitationalConstant * mass) / (radius * SpeedOfLight * SpeedOfLight));
+            double gravitationalTimeDilation = TimeDilationFactor(radius, radius);
             double observationRadius = radius + 1000;
-            double timeDilationAtBuffer = 1 / Math.Sqrt(1 - (2 * GravitationalConstant * mass) / (observationRadius * SpeedOfLight * SpeedOfLight));
+            double timeDilationAtBuffer = TimeDilationFactor(radius, observationRadius);
             double entropy = (BoltzmannConstant * SpeedOfLight * SpeedOfLight * SpeedOfLight * surfaceArea) / (4 *GravitationalConstant * ReducedPlanckConstant);
             double averageDensity = mass / volume;
 
