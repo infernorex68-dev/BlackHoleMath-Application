@@ -135,8 +135,11 @@ namespace BlackHoleMath
 
             const double GravitationalConstant = 6.6742e-11;
             const double SpeedOfLight = 2.99792458e8;
+            const double SphereVolumeFactor = 4.0 / 3.0 * Math.PI;
+            
 
             double radius = GravitationalConstant * 2 * mass / (SpeedOfLight * SpeedOfLight);
+            double volume = SphereVolumeFactor * Math.Pow(radius, 3);
             double circumference = 2 * Math.PI * radius;
             double surfaceArea = 4 * Math.PI * radius * radius;
             double surfaceGravity = SpeedOfLight * SpeedOfLight * SpeedOfLight * SpeedOfLight / (4 * GravitationalConstant * mass);
@@ -146,6 +149,8 @@ namespace BlackHoleMath
             double observationRadius = radius + 1000;
             double timeDilationAtBuffer = 1 / Math.Sqrt(1 - (2 * GravitationalConstant * mass) / (observationRadius * SpeedOfLight * SpeedOfLight));
             double entropy = (BoltzmannConstant * SpeedOfLight * SpeedOfLight * SpeedOfLight * surfaceArea) / (4 *GravitationalConstant * ReducedPlanckConstant);
+            double averageDensity = mass / volume;
+
             // Update results text
             RadiusText.Text = $"Radius: {radius:E3} m";
             CircumferenceText.Text = $"Circumference: {circumference:E3} m";
@@ -156,6 +161,7 @@ namespace BlackHoleMath
             GravitationalTimeDilationText.Text = $"Gravitational Time Dilation Factor: {gravitationalTimeDilation:E3}";
             TimeDilationAt1kmAboveEventHorizonText.Text = $"Time Dilation at 1 km above Event Horizon: {timeDilationAtBuffer:E3}";
             EntropyText.Text = $"Entropy: {entropy:E3} J/K";
+            AverageDensityText.Text = $"Average Density: {averageDensity:E3} kg/m³";
 
             // Notes based on radius
             if (radius < 0.0001)

@@ -92,6 +92,8 @@
                        Text="Time Dilation At 1km Above Event Horizon: --" Margin="0,2" TextWrapping="Wrap"/>
                         <TextBlock x:Name="EntropyText" Foreground="{StaticResource AccentCream}"
            Text="Entropy: --" Margin="0,2" TextWrapping="Wrap"/>
+                        <TextBlock x:Name="AverageDensityText" Foreground="{StaticResource AccentCream}"
+           Text="Average Density: --" Margin="0,2" TextWrapping="Wrap"/>
                     </StackPanel>
                     </ScrollViewer>
                 </Border>
