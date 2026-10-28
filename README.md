@@ -230,6 +230,32 @@ $$S = \frac{4\pi\, k_B\, G\, M^2}{\hbar\, c}$$
 
 Because entropy scales with $M^2$, doubling the mass quadruples the entropy.
 
+### Average Density
+
+The average density of a black hole is its mass divided by the volume of a sphere with the Schwarzschild radius:
+
+$$\rho_{avg} = \frac{M}{V}$$
+
+The Schwarzschild radius is:
+
+$$r_s = \frac{2GM}{c^2}$$
+
+The volume enclosed by the event horizon is:
+
+$$V = \frac{4}{3}\pi r_s^3$$
+
+Substituting both into the density formula gives the closed form in terms of mass:
+
+$$\rho_{avg} = \frac{M}{\frac{4}{3}\pi r_s^3} = \frac{3c^6}{32\pi G^3 M^2}$$
+
+Where:
+
+- $G$ is the gravitational constant ($6.674 \times 10^{-11}\ \text{m}^3\text{kg}^{-1}\text{s}^{-2}$)
+- $M$ is the mass of the black hole (kg)
+- $c$ is the speed of light ($3 \times 10^8\ \text{m/s}$)
+
+Because density scales with $1/M^2$, doubling the mass cuts the average density to a quarter. This is why supermassive black holes can have an average density lower than water, while stellar-mass ones are extraordinarily dense.
+
 ## Classification and Notes
 
 After each calculation, the app labels the black hole by mass (in kilograms) and shows a note based on the radius.
