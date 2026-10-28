@@ -345,7 +345,7 @@ Ideas for future work:
 
 - [ ] Input validation for zero and negative mass
 - [ ] Standard astronomical mass classes and more units (grams, Earth masses, kilometers, light-years)
-- [ ] More properties, such as density and evaporation time from Hawking radiation
+- [ ] More properties, such as evaporation time from Hawking radiation
 - [ ] Spinning (Kerr) black holes
 - [ ] Unit tests for the calculation logic, separated from the UI
 - [ ] Refactor to MVVM
