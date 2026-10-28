@@ -52,6 +52,7 @@ Add a screenshot here once you have one:
 - Hawking radiation temperature
 - Gravitational time dilation, at the horizon and 1 km above it
 - Bekenstein-Hawking entropy
+- Average Density
 - All results displayed in scientific notation with SI units
 
 **Classification and feedback**
@@ -136,6 +137,7 @@ Input: `5.972e24` **Kilograms** (the mass of the Earth)
 | Gravitational Time Dilation Factor (at the horizon) | ∞ |
 | Time Dilation at 1 km above Event Horizon | 1.000E+000 |
 | Entropy | 1.306E+043 J/K |
+| Average Density | 2.043E+030kg/m³
 | Classification | Stellar-Mass Black Hole |
 
 Compressing the Earth to a black hole would leave an event horizon under a centimeter in radius. The 1 km time dilation reads 1.000 because 1 km is enormous compared with a horizon this small.
